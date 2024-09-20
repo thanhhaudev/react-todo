@@ -1,7 +1,7 @@
 // src/components/TODOHero.jsx
 function TODOHero({ todos_completed, total_todos }) {
     return (
-        <section>
+        <section className="hero">
             <div>
                 <p>Task Done</p>
                 <p>Keep it up</p>
