@@ -1,10 +1,11 @@
 import React from "react";
+import { updateLocalStorageTodos } from "@/utils/localStorageUtils";
 
 function TODOList({ todos, setTodos }) {
     return (
         <ol className="todo_list">
             {todos && todos.length > 0 ? (
-                todos?.map((item, index) => <Item key={index} item={item} setTodos={setTodos}/>)
+                todos?.map((item, index) => <Item key={index} item={item} todos={todos} setTodos={setTodos}/>)
             ) : (
                 <p>Seems lonely in here, what are you up to?</p>
             )}
@@ -12,19 +13,25 @@ function TODOList({ todos, setTodos }) {
     );
 }
 
-function Item({ item, setTodos }) {
+function Item({ item, todos, setTodos }) {
     const [isEditing, setIsEditing] = React.useState(false);
     const inputRef = React.useRef(null);
     const completeTodo = () => {
-        setTodos((prev) =>
-            prev.map((todo) => {
+        setTodos((prev) => {
+            const updatedTodos = prev.map((todo) => {
                 if (todo.id === item.id) {
                     return { ...todo, is_completed: !todo.is_completed };
                 }
-
                 return todo;
-            })
-        );
+            });
+
+            updateLocalStorageTodos(updatedTodos); // store the updated list of todos in local storage
+
+            return updatedTodos;
+        });
+
+        // store the updated list of todos in local storage
+        updateLocalStorageTodos(todos);
     };
 
     // Set focus on input when editing
@@ -40,28 +47,34 @@ function Item({ item, setTodos }) {
         setIsEditing(false);
     }
 
-    const handleEdit = () => {
-        setIsEditing(true);
-    }
-
     const handleEditBlur = () => {
         setIsEditing(false);
     }
 
+    const handleEdit = () => {
+        setIsEditing(true);
+    }
+
     const handleEditChange = (e) => {
-        setTodos((prev) =>
-            prev.map((todo) => {
+        setTodos((prev) => {
+            const updatedTodos = prev.map((todo) => {
                 if (todo.id === item.id) {
                     return { ...todo, title: e.target.value };
                 }
 
                 return todo;
-            })
-        );
-    }
+            });
+
+            updateLocalStorageTodos(updatedTodos);
+
+            return updatedTodos;
+        });
+    };
 
     const handleDelete = () => {
-        setTodos((prev) => prev.filter((todo) => todo.id !== item.id));
+        let updatedTodos = todos.filter((todo) => todo.id !== item.id);
+        setTodos(updatedTodos);
+        updateLocalStorageTodos(updatedTodos);
     }
 
     return (

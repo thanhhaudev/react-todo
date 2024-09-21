@@ -1,18 +1,20 @@
-// src/components/Form.jsx
 "use client";
+import { updateLocalStorageTodos } from "@/utils/localStorageUtils";
 
-function Form({ setTodos }) {
+function Form({ todos, setTodos }) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
         const value = e.target.todo.value;
-        setTodos((prevTodos) => [
-            ...prevTodos,
-            { title: value, id: window.crypto.randomUUID(), is_completed: false },
-        ]);
+        const newTodo = { title: value, id: window.crypto.randomUUID(), is_completed: false };
 
-        e.target.reset();
-        console.log("Form Submitted");
+        // update the state with the new todo
+        setTodos((prevTodos) => [...prevTodos, newTodo]);
+
+        // store the updated list of todos in local storage
+        updateLocalStorageTodos([...todos, newTodo]);
+
+        e.target.reset(); // clear the input field
     };
 
     return (
