@@ -39,6 +39,13 @@ button {
     font-weight: 200;
 }
 
+.error-message {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 13px;
+    color: #ff0000;
+}
+
 .wrapper {
     display: flex;
     flex-direction: column;
