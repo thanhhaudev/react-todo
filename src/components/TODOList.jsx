@@ -1,8 +1,8 @@
-function TODOList({ todos }) {
+function TODOList({ todos, setTodos }) {
     return (
         <ol className="todo_list">
             {todos && todos.length > 0 ? (
-                todos?.map((item, index) => <Item key={index} item={item} />)
+                todos?.map((item, index) => <Item key={index} item={item} setTodos={setTodos}/>)
             ) : (
                 <p>Seems lonely in here, what are you up to?</p>
             )}
@@ -10,15 +10,28 @@ function TODOList({ todos }) {
     );
 }
 
-function Item({ item }) {
+function Item({ item, setTodos }) {
+    const completeTodo = () => {
+        setTodos((prev) =>
+            prev.map((todo) => {
+                if (todo.id === item.id) {
+                    return { ...todo, is_completed: !todo.is_completed };
+                }
+
+                return todo;
+            })
+        );
+    };
+
     return (
-        <li id={item?.id} className="todo_item">
+        <li id={item?.id} className="todo_item" onClick={completeTodo}>
             <button className="todo_items_left">
                 <svg clipRule="evenodd" fillRule="evenodd" strokeLinejoin="round" strokeMiterlimit="2"
-                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="34" height="34" stroke="#22C55E">
+                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="34" height="34" stroke="#22C55E"
+                     fill={item.is_completed ? "#22C55E" : "#0d0d0d"}>
                     <circle cx="11.998" cy="11.998" fillRule="nonzero" r="9.998"></circle>
                 </svg>
-                <p>{item?.title}</p>
+                <p style={item.is_completed ? { textDecoration: "line-through" } : {}}>{item?.title}</p>
             </button>
             <div className="todo_items_right">
                 <button>
