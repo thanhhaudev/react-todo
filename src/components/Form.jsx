@@ -1,9 +1,16 @@
 // src/components/Form.jsx
 "use client";
 
-function Form() {
+function Form({ setTodos }) {
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        const value = e.target.todo.value;
+        setTodos((prevTodos) => [
+            ...prevTodos,
+            { title: value, id: window.crypto.randomUUID(), is_completed: false },
+        ]);
+
         e.target.reset();
         console.log("Form Submitted");
     };
