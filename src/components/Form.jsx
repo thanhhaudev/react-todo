@@ -34,6 +34,7 @@ function Form({ todos, setTodos }) {
                         name="todo"
                         id="todo"
                         placeholder="Write your next task"
+                        autoComplete="off"
                     />
                 </label>
                 <button>

@@ -87,6 +87,7 @@ function Item({ item, todos, setTodos }) {
                             id="edit-todo"
                             name="edit-todo"
                             type="text"
+                            autoComplete="off"
                             defaultValue={item?.title}
                             onBlur={handleEditBlur}
                             onChange={handleEditChange}

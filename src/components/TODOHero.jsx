@@ -5,7 +5,7 @@ function TODOHero({ todos_completed, total_todos }) {
             <div>
                 <p className="text_large">Task Done</p>
                 <p className="text_small">
-                    { todos_completed === total_todos ? "Congrats! You've completed all tasks" : "Keep it up!" }
+                    { total_todos > 0 && todos_completed === total_todos ? "Congrats! You've completed all tasks" : "Keep it up!" }
                 </p>
             </div>
             <div>
